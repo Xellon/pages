@@ -42,6 +42,7 @@ function checkOTP(otp, proof) {
  * @typedef Volume
  * @property {string} legacyId
  * @property {string} slug
+ * @property {number} totalParts
  */
 /**
  * @typedef Book

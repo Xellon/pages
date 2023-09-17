@@ -23,7 +23,7 @@ function onAuthorizeClick() {
     if(_otpResponse) {
         checkOTP(_otpResponse.otp, _otpResponse.proof).then(response => {
             localStorage.setItem(tokenCacheKey, JSON.stringify(response));
-            window.location.href = "/j-novel/index.html"
+            window.location.href = "./index.html"
         });
     }
 }
