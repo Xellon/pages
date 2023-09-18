@@ -1,6 +1,7 @@
 //@ts-check
+/** @typedef {import("./auth.js")} */
 {
-    const token = getTokenFromStorage();
+    var token = getTokenFromStorage();
 
     if (!token) {
         window.location.href = "./login.html"

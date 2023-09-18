@@ -1,18 +1,16 @@
 //@ts-check
-
-/** @type {GenerateOTPResponse | undefined} */
-let _otpResponse = undefined;
+var otpResponse = undefined;
 {
-    const token = getTokenFromStorage();
+    log("Getting from storage");
+    var token = getTokenFromStorage();
 
     if (token) {
         window.location.href = "./index.html"
     }
 
-
-    generateOTP().then(response => {
-        _otpResponse = response;
-        const element = document.getElementById("otp");
+    generateOTP(function (response) {
+        otpResponse = response;
+        var element = document.getElementById("otp");
         if (element) {
             element.innerText = response.otp;
         }
@@ -20,8 +18,8 @@ let _otpResponse = undefined;
 }
 
 function onAuthorizeClick() {
-    if(_otpResponse) {
-        checkOTP(_otpResponse.otp, _otpResponse.proof).then(response => {
+    if(otpResponse) {
+        checkOTP(otpResponse.otp, otpResponse.proof, function(response) {
             localStorage.setItem(tokenCacheKey, JSON.stringify(response));
             window.location.href = "./index.html"
         });

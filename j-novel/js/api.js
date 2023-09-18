@@ -1,14 +1,21 @@
 //@ts-check
-const host = "https://labs.j-novel.club";
+const host = window.location.origin;
+
+/** @typedef {import("./debug.js")} */
 
 /**
  * @typedef GenerateOTPResponse
  * @property {string} otp - goes to webpage
  * @property {string} proof - used in getting token along with otp after otp is approved in webpage
  */
-/** @returns {Promise<GenerateOTPResponse>}*/
-function generateOTP() {
-    return fetch(makeUrl("/auth/otp4app/generate")).then(r => r.json());
+/**
+ * @param {(response: GenerateOTPResponse) => void} callback
+ */
+function generateOTP(callback) {
+    log("generating otp");
+    sendRequest("GET", makeUrl("/auth/otp4app/generate"), [], function(res){
+        callback(JSON.parse(res));
+    });
 }
 
 /**
@@ -20,23 +27,14 @@ function generateOTP() {
 /** 
  * @param {string} otp
  * @param {string} proof
- * @returns {Promise<CheckOTPResponse>}
+ * @param {(response: CheckOTPResponse) => void} callback
  */
-function checkOTP(otp, proof) {
-    return fetch(makeUrl(`/auth/otp4app/check/${otp}/${proof}`)).then(r => r.json());
+function checkOTP(otp, proof, callback) {
+    log("checking otp");
+    sendRequest("GET", makeUrl("/auth/otp4app/check/" + otp + "/" + proof), [], function(res){
+        callback(JSON.parse(res));
+    });
 }
-
-// /**
-//  * @typedef Me
-//  * @property {string} legacyId - id
-//  */
-// /**
-//  * @param {string} token
-//  * @returns {Promise<Me>}
-//  */
-// function fetchMe(token) {
-//     return fetch(makeUrl("/me"), getRequestParams(token)).then(r => r.json());
-// }
 
 /**
  * @typedef Volume
@@ -51,10 +49,13 @@ function checkOTP(otp, proof) {
  */
 /** 
  * @param {string} token
- * @returns {Promise<{ books: Book[] }>}
+ * @param {(response: { books: Book[] }) => void} callback
  */
-function fetchMyLibrary(token) {
-    return fetch(makeUrl("/me/library"), getRequestParams(token)).then(r => r.json());
+function fetchMyLibrary(token, callback) {
+    log("fetching my library");
+    sendRequest("GET", makeUrl("/me/library"), getHeaders(token), function(res){
+        callback(JSON.parse(res));
+    });
 }
 
 /**
@@ -65,19 +66,14 @@ function fetchMyLibrary(token) {
  */
 /**
  * @param {string} volume 
- * @param {string} token 
- * @returns {Promise<{parts: Part[]}>}
- */
-function fetchVolumeParts(volume, token) {
-    return fetch(makeUrl(`/volumes/${volume}/parts`), getRequestParams(token)).then(r => r.json());
-}
-
-/**
  * @param {string} token
- * @returns {RequestInit}
+ * @param {(response: {parts: Part[]}) => void} callback
  */
-function getRequestParams(token) {
-    return { headers: { "Authorization": `Bearer ${token}` } };
+function fetchVolumeParts(volume, token, callback) {
+    log("fetching volume parts");
+    sendRequest("GET", makeUrl("/volumes/" + volume + "/parts"), getHeaders(token), function(res){
+        callback(JSON.parse(res));
+    });
 }
 
 /**
@@ -85,5 +81,36 @@ function getRequestParams(token) {
  * @returns {string}
  */
 function makeUrl(path) {
-    return `${host}/app/v1${path}?format=json`;
+    return host + "/app/v1" + path + "?format=json";
+}
+
+/**
+ * @param {string} token
+ * @returns {[string, string][]}
+ */
+function getHeaders(token) {
+    return [[ "Authorization", "Bearer " + token ]];
+}
+
+/**
+ * @param {"GET"} method
+ * @param {string} url
+ * @param {[string, string][]} headers
+ * @param {(response: string) => void} callback
+ */
+function sendRequest(method, url, headers, callback) {
+    log("sending request");
+    
+    const req = new XMLHttpRequest();
+    req.addEventListener("load", function () {
+        callback(this.responseText);
+    });
+    req.addEventListener("error", function () {
+        log("Error: fetch error");
+    });
+    req.open(method, url);
+    for(var i = 0; i < headers.length; i++) {
+        req.setRequestHeader(headers[i][0], headers[i][1]);
+    }
+    req.send();
 }
