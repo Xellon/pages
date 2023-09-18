@@ -1,5 +1,5 @@
 //@ts-check
-const host = window.location.origin;
+const host = "https://labs.j-novel.club";
 
 /** @typedef {import("./debug.js")} */
 
