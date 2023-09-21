@@ -1,0 +1,31 @@
+#part-list {
+    list-style: none;
+    padding: 0px;
+}
+
+#part-list > li {
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 8px;
+    position: relative;
+}
+
+#part-list > li img {
+    height: 80px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.part-progress {
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    right: 8px;
+    top: 0px;
+}
+
+.part-progress div {
+    display: table-cell;
+    height: 96px;
+    vertical-align: middle;
+}

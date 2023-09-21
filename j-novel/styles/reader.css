@@ -1,0 +1,41 @@
+#header {
+    font-size: 32px;
+    position: fixed;
+    height: 80px;
+    background: white;
+    border-bottom: 2px solid;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+}
+
+#header > div {
+    padding: 8px;
+    position: relative;
+}
+
+button {
+    font-size: 32px;
+}
+
+#logout-button {
+    float: right;
+}
+
+#footer {
+    font-size: 32px;
+    position: fixed;
+    height: 100px;
+    background: white;
+    border-top: 2px solid;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    padding: 8px;
+}
+
+#read-space {
+    font-size: 32px;
+    min-height: 200px;
+    padding: 32px;
+}

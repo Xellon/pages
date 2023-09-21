@@ -1,4 +1,8 @@
 //@ts-check
+/** @typedef {import("./common.js")} */
+/** @typedef {import("./api.js")} */
+/** @typedef {import("./auth.js")} */
+
 {
     var token = getTokenFromStorage();
 
@@ -64,25 +68,24 @@
     function createHeader() {
         var header = document.createElement("div");
         header.id = "header";
-        header.style.position = "fixed";
-        header.style.height = "100px";
-        header.style.background = "gray";
-        header.style.width = "100%";
-        header.style.top = "0px";
-        header.style.left = "0px";
+
+        var headerChildren = document.createElement('div');
 
         var partsLink = document.createElement('a');
         partsLink.href = "./parts.html";
         partsLink.innerText = "Parts";
-        header.appendChild(partsLink);
+        headerChildren.appendChild(partsLink);
 
         var logoutButton = document.createElement('button');
+        logoutButton.id = "logout-button";
         logoutButton.onclick = function() {
             localStorage.removeItem(tokenCacheKey);
             window.location.href = "./login.html";
         }
         logoutButton.innerText = "Logout";
-        header.appendChild(logoutButton);
+        headerChildren.appendChild(logoutButton);
+
+        header.appendChild(headerChildren);
 
         return header;
     }
@@ -90,12 +93,6 @@
     function createFooter() {
         var footer = document.createElement("div");
         footer.id = "footer";
-        footer.style.position = "fixed";
-        footer.style.height = "200px";
-        footer.style.background = "gray";
-        footer.style.width = "100%";
-        footer.style.bottom = "0px";
-        footer.style.left = "0px";
         return footer;
     }
 }

@@ -60,7 +60,9 @@ function fetchMyLibrary(token, callback) {
 
 /**
  * @typedef Part
+ * @property {{ thumbnailUrl: string }} cover
  * @property {string} legacyId
+ * @property {number} number - total part number
  * @property {number} progress - float from 0 to 1
  * @property {string} title
  */
