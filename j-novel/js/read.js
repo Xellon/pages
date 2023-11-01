@@ -46,7 +46,13 @@ log("getting part");
 var part = getPart();
 if (part) {
     log("part: " + part);
-    sendRequest("GET", host + "/embed/" + part + "/data.xhtml", getHeaders(token), function(response) {
+
+    var url = host + "/embed/" + part + "/data.xhtml";
+    if (useProxy) {
+        url = proxy + "?" + encodeURIComponent(url);
+    }
+
+    sendRequest("GET", url, getHeaders(token), function(response) {
         var bodyStart = response.indexOf("<body>");
         var bodyEnd = response.indexOf("</body>");
         if (bodyStart >= 0 && bodyEnd >= 0) {

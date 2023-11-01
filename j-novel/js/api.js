@@ -57,12 +57,9 @@ function checkOTP(otp, proof, callback) {
 function fetchFeed(userId, callback) {
     log("fetching my feed");
 
-    var path = "/feed/user/" + userId + ".json";
-    var url = "";
-    if (!useProxy) {
-        url = host + path;
-    } else {
-        url = proxy + "?" + encodeURIComponent(host + path);
+    var url = host + "/feed/user/" + userId + ".json";
+    if (useProxy) {
+        url = proxy + "?" + encodeURIComponent(url);
     }
 
     sendRequest("GET", url, [], function(res){
