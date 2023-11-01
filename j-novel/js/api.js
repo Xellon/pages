@@ -1,5 +1,7 @@
 //@ts-check
-const host = "https://labs.j-novel.club";
+var host = "https://labs.j-novel.club";
+var proxy = "https://corsproxy.io/";
+var useProxy = true;
 
 /** @typedef {import("./debug.js")} */
 
@@ -37,6 +39,53 @@ function checkOTP(otp, proof, callback) {
 }
 
 /**
+ * @typedef FeedItem
+ * @property {string} url
+ * @property {string} title
+ * @property {string} id
+ * @property {string} image
+ */
+
+/**
+ * @typedef Feed
+ * @property {FeedItem[]} items
+ */
+/**
+ * @param {string} userId legacyId in /me endpoint 
+ * @param {(response: Feed) => void} callback
+ */
+function fetchFeed(userId, callback) {
+    log("fetching my feed");
+
+    var path = "/feed/user/" + userId + ".json";
+    var url = "";
+    if (!useProxy) {
+        url = host + path;
+    } else {
+        url = proxy + "?" + encodeURIComponent(host + path);
+    }
+
+    sendRequest("GET", url, [], function(res){
+        callback(JSON.parse(res));
+    });
+}
+
+/**
+ * @typedef Me
+ * @property {string} legacyId
+ */
+/** 
+ * @param {string} token
+ * @param {(response: Me) => void} callback
+ */
+function fetchMe(token, callback) {
+    log("fetching my library");
+    sendRequest("GET", makeUrl("/me"), getHeaders(token), function(res){
+        callback(JSON.parse(res));
+    });
+}
+
+/**
  * @typedef Volume
  * @property {string} legacyId
  * @property {string} slug
@@ -59,12 +108,25 @@ function fetchMyLibrary(token, callback) {
 }
 
 /**
+ * @param {string} partId 
+ * @param {string} token
+ * @param {(response: Part) => void} callback
+ */
+function fetchPart(partId, token, callback) {
+    log("fetching part");
+    sendRequest("GET", makeUrl("/parts/" + partId), getHeaders(token), function(res){
+        callback(JSON.parse(res));
+    });
+}
+
+/**
  * @typedef Part
  * @property {{ thumbnailUrl: string }} cover
  * @property {string} legacyId
  * @property {number} number - total part number
  * @property {number} progress - float from 0 to 1
  * @property {string} title
+ * @property {string} launch - launch date in utc
  */
 /**
  * @param {string} volume 
@@ -83,7 +145,11 @@ function fetchVolumeParts(volume, token, callback) {
  * @returns {string}
  */
 function makeUrl(path) {
-    return host + "/app/v1" + path + "?format=json";
+    if (!useProxy) {
+        return host + "/app/v1" + path + "?format=json";
+    } else {
+        return proxy + "?" + encodeURIComponent(host + "/app/v1" + path + "?format=json");
+    }
 }
 
 /**

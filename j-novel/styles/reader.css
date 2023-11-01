@@ -1,4 +1,5 @@
-#header {
+header {
+    visibility: hidden;
     font-size: 32px;
     position: fixed;
     height: 80px;
@@ -7,11 +8,23 @@
     width: 100%;
     top: 0px;
     left: 0px;
+    z-index: 1;
 }
 
-#header > div {
+header > div {
     padding: 8px;
     position: relative;
+}
+
+header nav {
+    display: inline-block;
+}
+
+header a {
+    border: 1px solid;
+    padding: 8px;
+    border-radius: 8px;
+    display: inline-block;
 }
 
 button {
@@ -22,7 +35,8 @@ button {
     float: right;
 }
 
-#footer {
+footer {
+    visibility: hidden;
     font-size: 32px;
     position: fixed;
     height: 100px;
@@ -32,10 +46,74 @@ button {
     bottom: 0px;
     left: 0px;
     padding: 8px;
+    z-index: 1;
 }
 
 #read-space {
+    padding: 0;
+    margin: 0;
     font-size: 32px;
     min-height: 200px;
+    overflow: scroll;
+}
+
+#read-text {
     padding: 32px;
+}
+
+#read-prev-zone {
+    /* background: rgba(100, 100, 100, 0.5); */
+    position: absolute;
+    height: 100%;
+    width: 30%;
+    top: 0;
+    left: 0;
+}
+#read-click-zone {
+    /* background: rgba(200, 200, 200, 0.5); */
+    position: absolute;
+    height: 100%;
+    width: 40%;
+    top: 0;
+    left: 30%;
+}
+#read-next-zone {
+    /* background: rgba(100, 100, 100, 0.5); */
+    position: absolute;
+    height: 100%;
+    width: 30%;
+    top: 0;
+    right: 0;
+}
+
+#font-control {
+    vertical-align: top;
+    display: inline-block;
+}
+
+#font-control button {
+    height: 64px;
+    width: 64px;
+    margin: 0px 8px;
+}
+
+#progress-bar {
+    position: relative;
+    vertical-align: top;
+    display: inline-block;
+    width: 50%;
+    height: 64px;
+}
+
+#progress-bg {
+    height: 100%;
+    background-color: gray;
+}
+
+#progress-fg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background-color: lightgray;
 }

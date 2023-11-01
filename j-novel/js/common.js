@@ -70,3 +70,16 @@ function getDebugList() {
     }
     return addDebugList();
 }
+
+/******************************************** Math ********************************************/
+
+/**
+ * @param {number} min 
+ * @param {number} max 
+ * @returns {(value: number) => number}
+ */
+function clipBetween(min, max) {
+    return function(value) {
+        return Math.min(max, Math.max(min, value));
+    }
+}

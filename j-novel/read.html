@@ -8,7 +8,34 @@
         <link rel="stylesheet" href="./styles/reader.css">
     </head>
     <body>
-        <div id="read-space" onclick="onReadSpaceClick()"></div>
+        <header id="header">
+            <div>
+                <nav>
+                    <a href="./parts.html">Parts</a>
+                </nav>
+                <button id="logout-button" onclick="onLogout()">Logout</button>
+            </div>
+        </header>
+        <article id="read-space" onscroll="onReadSpaceScroll()">
+            <div id="read-text">
+                <div id="read-prev-zone" onclick="prevPage()"></div>
+                <div id="read-click-zone" onclick="onReadSpaceClick()"></div>
+                <div id="read-next-zone" onclick="nextPage()"></div>
+            </div>
+        </article>
+        <footer id="footer">
+            <div id="font-control">
+                <label>
+                    Font size: <span id="font-size">? px</span>
+                    <button onclick="changeFontSizeBy(2)">+</button>
+                    <button onclick="changeFontSizeBy(-2)">-</button>
+                </label>
+            </div>
+            <div id="progress-bar">
+                <div id="progress-bg"></div>
+                <div id="progress-fg"></div>
+            </div>
+        </footer>
     </body>
     <script src="./js/read.js" type="text/javascript" charset="utf-8"></script>
 </html>

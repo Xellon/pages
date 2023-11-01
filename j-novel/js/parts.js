@@ -22,12 +22,12 @@
             return;
         }
 
-        fetchParts(token, function(parts) {
+        fetchParts2(token, function(parts) {
             if (!parts.length) {
                 partListElement.innerText = 'No parts';
                 return;
             }
-            parts.sort(function(a, b) { return b.number - a.number; });
+            parts.sort(function(a, b) { return new Date(b.launch).valueOf() - new Date(a.launch).valueOf(); });
 
             partListElement.innerText = '';
             for (var i = 0; i < parts.length; i++) {
@@ -67,6 +67,35 @@
                     callback(parts);
                 });
             }
+        });
+    }
+
+    /**
+     * 
+     * @param {string} token 
+     * @param {(parts: Part[]) => void} callback 
+     */
+    function fetchParts2(token, callback) {
+        fetchMe(token, function(me){
+            fetchFeed(me.legacyId, function(feed){
+                var feedItems = feed.items
+                    .filter(function(_, i) { return i < 10; });
+
+                /** @type {Part[]} */
+                var loadedParts = [];
+                for (var idx = 0; idx < feedItems.length; idx++) {
+                    var id = feedItems[idx].id.substring(26);
+                    fetchPart(id, token, function(loadedPart){
+                        loadedParts.push(loadedPart);
+
+                        if (loadedParts.length < feedItems.length) {
+                            return;
+                        }
+
+                        callback(loadedParts);
+                    });
+                }
+            });
         });
     }
 
