@@ -1,7 +1,7 @@
 //@ts-check
 var host = "https://labs.j-novel.club";
 var proxy = "https://corsproxy.io/";
-var useProxy = true;
+var useProxy = false;
 
 /** @typedef {import("./debug.js")} */
 
