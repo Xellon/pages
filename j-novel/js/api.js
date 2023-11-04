@@ -1,5 +1,9 @@
 //@ts-check
 var host = "https://labs.j-novel.club";
+if (!isGithubPages()) {
+    host = window.location.origin;
+}
+
 var proxy = "https://corsproxy.io/";
 var useProxy = false;
 
@@ -179,3 +183,7 @@ function sendRequest(method, url, headers, callback) {
     }
     req.send();
 }
+
+function isGithubPages() {
+    return window.location.hostname === "xellon.github.io";
+} 
