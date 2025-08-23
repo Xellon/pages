@@ -1938,7 +1938,7 @@ PERFORMANCE OF THIS SOFTWARE.
                             Atsisiųsti
                             <sl-icon slot="suffix" name="download"></sl-icon>
                         </sl-button>`}
-            </sl-dialog>`}};Tr=new WeakSet;Ud=function(){const A=this.content;if(A){if(this.blob&&this.imgSrc){this.openDialog=!0;return}this.openDialog=!0,this.imageLoading=!0,HB(1).then(()=>yB(A)).then(t=>{t&&(this.blob=t,this.imgSrc=URL.createObjectURL(t))}).finally(()=>{this.imageLoading=!1})}};Fd=function(){this.openDialog=!1};xd=function(){this.imgSrc&&CB(this.imgSrc)};oe.styles=K`
+            </sl-dialog>`}};Tr=new WeakSet;Ud=function(){const A=this.content;if(A){if(this.blob&&this.imgSrc&&A.outerHTML===this.usedContent){this.openDialog=!0;return}this.usedContent=A.outerHTML,this.openDialog=!0,this.imageLoading=!0,HB(1).then(()=>yB(A)).then(t=>{t&&(this.blob=t,this.imgSrc=URL.createObjectURL(t))}).finally(()=>{this.imageLoading=!1})}};Fd=function(){this.openDialog=!1};xd=function(){this.imgSrc&&CB(this.imgSrc)};oe.styles=K`
         sl-dialog::part(body) {
             display: flex;
             flex-direction: column;
